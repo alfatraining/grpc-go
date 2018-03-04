@@ -54,7 +54,10 @@ func parseTarget(target string) (ret resolver.Target) {
 	if !ok {
 		return resolver.Target{Endpoint: target}
 	}
-	ret.Authority, ret.Endpoint, _ = split2(ret.Endpoint, "/")
+	if authority, endpoint, endpointSplitOk := split2(ret.Endpoint, "/"); endpointSplitOk {
+		ret.Authority = authority
+		ret.Endpoint = endpoint
+	}
 	return ret
 }
 
